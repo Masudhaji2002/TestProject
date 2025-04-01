@@ -41,6 +41,29 @@ struct User: Codable, Identifiable, Hashable {
             return lhs.id == rhs.id
         }
     
+    init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+
+            id = try container.decode(String.self, forKey: .id)
+            first_name = try container.decode(String.self, forKey: .first_name)
+            patronymic = try container.decode(String.self, forKey: .patronymic)
+            last_name = try container.decode(String.self, forKey: .last_name)
+            specialization = try container.decodeIfPresent([Specialization].self, forKey: .specialization)
+            avatar = try container.decodeIfPresent(String.self, forKey: .avatar)
+            text_chat_price = try container.decodeIfPresent(Int.self, forKey: .text_chat_price)
+            scientific_degree = try container.decodeIfPresent(Int.self, forKey: .scientific_degree)
+            higher_education = try container.decodeIfPresent([HigherEducation].self, forKey: .higher_education)
+            work_expirience = try container.decodeIfPresent([WorkExpirience].self, forKey: .work_expirience)
+            category_label = try container.decodeIfPresent(String.self, forKey: .category_label)
+            free_reception_time = try container.decodeIfPresent([FreeReceptionTime].self, forKey: .free_reception_time)
+
+            // Обрабатываем ratings_rating (Double → Int)
+            if let ratingDouble = try? container.decode(Double.self, forKey: .ratings_rating) {
+                ratings_rating = Int(ratingDouble)
+            } else {
+                ratings_rating = try? container.decodeIfPresent(Int.self, forKey: .ratings_rating)
+            }
+        }
 }
 
 struct Specialization: Codable {
@@ -73,6 +96,7 @@ struct HigherEducation: Codable {
     let until_now: Bool
     var is_moderated: Bool = true
 }
+
 
 
 
