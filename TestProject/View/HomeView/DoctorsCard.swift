@@ -14,12 +14,28 @@ struct DoctorsCard: View {
         ZStack {
             VStack(alignment: .leading, spacing: 20) {
                 HStack(spacing: 16) {
-                    Image("image")
-                        .resizable()
-                        .scaledToFill()
-                        .frame(width: 50, height: 50)
-                        .foregroundStyle(Color.gray)
-                        .clipShape(Circle())
+                    AsyncImage(url: URL(string: user.avatar ?? "")) { phase in
+                                    switch phase {
+                                    case .empty:
+                                        Image(systemName: "person.crop.circle.fill")
+                                            .resizable()
+                                            .scaledToFill()
+                                            .foregroundStyle(.gray)
+                                            .frame(width: 50, height: 50)
+                                    case .success(let image):
+                                        image.resizable()
+                                            .scaledToFill()
+                                            .frame(width: 50, height: 50)
+                                            .clipShape(Circle())
+                                    case .failure:
+                                        Image(systemName: "person.crop.circle.fill")
+                                            .resizable()
+                                            .scaledToFill()
+                                            .frame(width: 50, height: 50)
+                                    @unknown default:
+                                        EmptyView()
+                                    }
+                                }
                     VStack(alignment: .leading, spacing: 5) {
                         Text(user.last_name)
                             .font(.system(size: 16, weight: .bold))
