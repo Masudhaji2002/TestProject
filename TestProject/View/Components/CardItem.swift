@@ -24,7 +24,7 @@ struct CardItem: View {
 
     var body: some View {
         ZStack {
-            VStack(alignment: .leading, spacing: 15) {
+            VStack(alignment: .leading, spacing: 16) {
                 HStack(alignment: .top, spacing: 16) {
                     
                     AsyncImage(url: URL(string: avatar)) { image in
@@ -98,6 +98,10 @@ struct CardItem: View {
             .padding()
             
         }
+        .frame(maxWidth: .infinity, maxHeight: 224)
+        .background(Color.white)
+        .cornerRadius(8)
+        .padding(.horizontal, 16)
     }
 }
 

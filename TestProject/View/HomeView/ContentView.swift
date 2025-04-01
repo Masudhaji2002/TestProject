@@ -17,7 +17,7 @@ struct ContentView: View {
                 VStack(spacing: 16) {
                     SearchBar()
                     PlaceButton()
-                    VStack(spacing: 16) {
+                    VStack {
                         ScrollView(.vertical) {
                             if userViewModel.isLoading {
                                 ProgressView("Загрузка...")
@@ -41,6 +41,7 @@ struct ContentView: View {
                                     .onTapGesture {
                                         navigationPath.append(user)
                                     }
+                                    .padding(.bottom, 16)
                                 }
                             }
                         }
@@ -48,6 +49,7 @@ struct ContentView: View {
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
                 .padding(.horizontal,16)
+                .padding(.bottom, 70)
                 .background(Color(red: 245/255, green: 245/255, blue: 245/255))
             }
             .navigationDestination(for: User.self) { user in
@@ -56,6 +58,8 @@ struct ContentView: View {
             .onAppear {
                 userViewModel.getData()
             }
+            .navigationTitle("Докторы")
+            .navigationBarTitleDisplayMode(.inline)
         }
     }
 }
